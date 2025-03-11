@@ -1,0 +1,37 @@
+class Images {
+  // static String get appLogo => 'assets/images/logo.png';
+  // static String get appLogo => 'assets/images/srlogo.png';
+  static String get appLogo => 'assets/images/logo.png';
+  // static String get appLogo => 'assets/images/picango.png';
+  // static String get appLogo => 'assets/images/parevalogos.png';
+  // static String get appLogo => 'assets/images/sandship.png';
+  // static String get appLogo => 'assets/images/solaman.png';
+  static String get banner1 => 'assets/images/banner1.jpg';
+  static String get banner2 => 'assets/images/banner2.jpg';
+  static String get banner3 => 'assets/images/banner3.jpg';
+  static String get giftBox => 'assets/images/giftbox.png';
+  static String get logo => 'assets/icon/logo.svg';
+  static String get iconHome => 'assets/icon/home.png';
+  static String get iconHistory => 'assets/icon/history.png';
+  static String get iconProfile => 'assets/icon/profile.png';
+  static String get iconBack => 'assets/icon/back.svg';
+  static String get imageAvatar => 'assets/icon/avatar.png';
+  static String get iconEdit => 'assets/icon/icon_edit.png';
+  static String get iconEditProfile => 'assets/icon/icon_edit.svg';
+  static String get iconChangePass => 'assets/icon/key.svg';
+  static String get iconChangeLang => 'assets/icon/lang.svg';
+  static String get iconTermsCondition => 'assets/icon/doc.svg';
+  static String get iconPrivacy => 'assets/icon/privacy.svg';
+  static String get iconLogout => 'assets/icon/logout.svg';
+  static String get iconRoundedTicked => 'assets/icon/tick-circle.svg';
+  static String get flagEn => 'assets/icon/en.png';
+  static String get flagDe => 'assets/icon/de.png';
+  static String get flagBd => 'assets/icon/bd.png';
+  static String get flagEs => 'assets/icon/spain.jpg';
+  static String get flagAr => 'assets/icon/ar.png';
+  static String get flagIn => 'assets/icon/in.png';
+  static String get flagFr => 'assets/icon/fr.png';
+  static String get item1 => 'assets/images/item.png';
+  static String get addons1 => 'assets/images/addons.png';
+  static String get imageCustomer => 'assets/images/customer.png';
+}
