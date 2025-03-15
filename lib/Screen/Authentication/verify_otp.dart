@@ -6,7 +6,6 @@ import '../Widgets/constant.dart';
 import '../Widgets/otp_form.dart';
 import 'package:get/get.dart';
 
-
 class OtpVerify extends StatefulWidget {
   final String mobile;
   const OtpVerify({Key? key, required this.mobile}) : super(key: key);
@@ -23,6 +22,7 @@ class _OtpVerifyState extends State<OtpVerify> {
     authController = Get.put(AuthController());
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,10 +53,7 @@ class _OtpVerifyState extends State<OtpVerify> {
             ),
             Text(
               'confirm_otp'.tr,
-              style: kTextStyle.copyWith(
-                  color: kGreyTextColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0),
+              style: kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
             ),
             const SizedBox(
               height: 30,
@@ -83,16 +80,14 @@ class _OtpVerifyState extends State<OtpVerify> {
                     Center(
                       child: Text(
                         '********',
-                        style: kTextStyle.copyWith(
-                            color: kTitleColor, fontWeight: FontWeight.bold),
+                        style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(height: 20.0),
                     Center(
                       child: Text(
                         'your_otp'.tr,
-                        style: kTextStyle.copyWith(
-                            color: kTitleColor, fontWeight: FontWeight.bold),
+                        style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(height: 20.0),
@@ -100,17 +95,12 @@ class _OtpVerifyState extends State<OtpVerify> {
                     const SizedBox(height: 30.0),
                     ButtonGlobal(
                         buttontext: 'submit'.tr,
-                        buttonDecoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30.0),
-                            color: kMainColor),
+                        buttonDecoration: BoxDecoration(borderRadius: BorderRadius.circular(30.0), color: kMainColor),
                         onPressed: () async {
-                          if(authController.otp1.text.toString() != 'null'){
+                          if (authController.otp1.text.toString() != 'null') {
                             await authController.otpVerification(widget.mobile.toString());
-                          }else {
-                            Get.rawSnackbar(
-                                message: "enter_your_otp_code".tr,
-                                backgroundColor: Colors.red,
-                                snackPosition: SnackPosition.TOP);
+                          } else {
+                            Get.rawSnackbar(message: "enter_your_otp_code".tr, backgroundColor: Colors.red, snackPosition: SnackPosition.TOP);
                           }
                         }),
                     const SizedBox(height: 10.0),

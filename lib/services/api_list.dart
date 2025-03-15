@@ -7,7 +7,7 @@ class APIList {
   static String? apiEndPoint = "/api/v10/";
   static String? login = "${server!}signin";
   static String? hub = "${server!}hub";
-  static String? register = "${server!}register";
+  static String? register = "${server!}signup";
   static String? logout = "${server!}sign-out";
   static String? refreshToken = "${server!}refresh";
   static String? otpLogin = "${server!}otp-login";
@@ -66,6 +66,6 @@ class APIList {
   static String countriesUrl = '${server!}countries';
   static String countyUrl = '${server!}county';
   static String zoneUrl = '${server!}zone';
-  static String subZoneUrl = '${server!}zone';
+  static String subZoneUrl = '${server!}sub-zone';
   static String fsSpotlistUrl = '${server!}fs-spot';
 }

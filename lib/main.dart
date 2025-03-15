@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:fs_currier/utils/keys.dart';
 import 'package:fs_currier/utils/storage.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -13,8 +15,12 @@ import 'Screen/Widgets/constant.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
-  final box = GetStorage();
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = publishingKey;
+  await Stripe.instance.applySettings();
+
+  final box = GetStorage();
+
   // const firebaseOptions = FirebaseOptions(
   //   appId: '1:151878495365:android:2510842ed9330bba260dec',
   //   apiKey: 'AIzaSyDCthiio0WgX1F2CiVlw1Z-kWOKYYi6vQI',

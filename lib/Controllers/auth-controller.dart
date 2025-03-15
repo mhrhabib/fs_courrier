@@ -60,6 +60,15 @@ class AuthController extends GetxController {
       };
       String jsonBody = json.encode(body);
       server.postRequest(endPoint: APIList.login, body: jsonBody).then((response) {
+        print(response.body);
+        print(response.statusCode);
+        if (response != null && response.statusCode == 422) {
+          final jsonResponse = json.decode(response.body);
+          Get.rawSnackbar(message: "${jsonResponse['data']['errors']['email']}", backgroundColor: Colors.red, snackPosition: SnackPosition.TOP);
+          loader = false;
+          update();
+          return;
+        }
         if (response != null && response.statusCode == 200) {
           updateFcmSubscribe(email);
           final jsonResponse = json.decode(response.body);
@@ -132,7 +141,7 @@ class AuthController extends GetxController {
     });
   }
 
-  signupOnTap(hubID) async {
+  signupOnTap(hubID, usertype) async {
     loader = true;
     Future.delayed(Duration(milliseconds: 10), () {
       update();
@@ -140,12 +149,13 @@ class AuthController extends GetxController {
 
     Map body = {
       'business_name': businessNameController.text,
-      'full_name': firstNameController.text + ' ' + lastNameController.text,
+      'full_name': '${firstNameController.text} ${lastNameController.text}',
       'address': addressController.text,
       'email': emailController.text,
       'mobile': phoneController.text,
       'password': passwordController.text,
       'hub_id': hubID.toString(),
+      'user_type': usertype,
     };
     String jsonBody = json.encode(body);
     print(jsonBody);
@@ -161,9 +171,9 @@ class AuthController extends GetxController {
         print(jsonResponse);
         var regData = RegisterModel.fromJson(jsonResponse);
         if (regData.success!) {
-          Get.off(OtpVerify(
-            mobile: regData.data!.mobile.toString(),
-          ));
+          Get.off(() => OtpVerify(
+                mobile: regData.data!.mobile.toString(),
+              ));
           Get.rawSnackbar(message: "${regData.message}", backgroundColor: Colors.green, snackPosition: SnackPosition.TOP);
           businessNameController.clear();
           firstNameController.clear();
@@ -208,17 +218,18 @@ class AuthController extends GetxController {
     server.postRequest(endPoint: APIList.verifyOtp, body: jsonBody).then((response) {
       if (response != null && response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
-        var loginData = LoginModel.fromJson(jsonResponse);
-        var bearerToken = 'Bearer ' "${loginData.data?.token}";
-        userService.saveBoolean(key: 'is-user', value: true);
-        userService.saveString(key: 'token', value: loginData.data?.token);
-        userService.saveString(key: 'user-id', value: loginData.data!.user?.id.toString());
-        userService.saveString(key: 'email', value: loginData.data!.user!.email.toString());
-        userService.saveString(key: 'image', value: loginData.data!.user!.image.toString());
-        userService.saveString(key: 'name', value: loginData.data!.user!.name.toString());
-        userService.saveString(key: 'phone', value: loginData.data!.user!.phone.toString());
+        print(jsonResponse);
+        // var loginData = LoginModel.fromJson(jsonResponse);
+        // var bearerToken = 'Bearer ' "${loginData.data?.token}";
+        // userService.saveBoolean(key: 'is-user', value: true);
+        // userService.saveString(key: 'token', value: loginData.data?.token);
+        // userService.saveString(key: 'user-id', value: loginData.data!.user?.id.toString());
+        // userService.saveString(key: 'email', value: loginData.data!.user!.email.toString());
+        // userService.saveString(key: 'image', value: loginData.data!.user!.image.toString());
+        // userService.saveString(key: 'name', value: loginData.data!.user!.name.toString());
+        // userService.saveString(key: 'phone', value: loginData.data!.user!.phone.toString());
 
-        Server.initClass(token: bearerToken);
+        // Server.initClass(token: bearerToken);
         Get.put(GlobalController()).initController();
         otp1.clear();
         otp2.clear();
@@ -229,8 +240,8 @@ class AuthController extends GetxController {
         Future.delayed(const Duration(milliseconds: 10), () {
           update();
         });
-        Get.off(() => const Home());
-        Get.rawSnackbar(message: "${loginData.message}", backgroundColor: Colors.green, snackPosition: SnackPosition.TOP);
+        Get.off(() => const SignIn());
+        Get.rawSnackbar(message: "${jsonResponse['message']}", backgroundColor: Colors.green, snackPosition: SnackPosition.TOP);
       } else {
         loader = false;
         Future.delayed(const Duration(milliseconds: 10), () {

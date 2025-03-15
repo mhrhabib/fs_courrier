@@ -1,5 +1,6 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fs_currier/global/payment/payment_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../Controllers/review_controller.dart';
 import '/Models/parcels_model.dart';
 import '/Screen/Parcel/create_parcel.dart';
@@ -602,188 +603,202 @@ class _ParcelPageState extends State<ParcelPage> {
                                 : Padding(
                                     padding: EdgeInsets.all(0.r),
                                     child: SingleChildScrollView(
-                                      child: ListView.builder(
-                                          // primary: false,
-                                          shrinkWrap: true,
-                                          physics: const NeverScrollableScrollPhysics(),
-                                          itemCount: parcel.parcelList.length,
-                                          itemBuilder: (BuildContext context, index) {
-                                            return Padding(
-                                              padding: EdgeInsets.all(5.r),
-                                              child: InkWell(
-                                                onTap: () => ParcelDetails(parcel: parcel.parcelList[index], id: parcel.parcelList[index].id).launch(context),
-                                                child: Container(
-                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r), color: Colors.white, border: Border.all(color: itembg)),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(8.r),
-                                                    child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                                                      SizedBox(
-                                                        width: 4.w,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 300.w,
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Padding(
-                                                              padding: EdgeInsets.only(top: 6.h, bottom: 10.h),
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(
-                                                                    "trackingId".tr,
-                                                                    style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500),
-                                                                  ),
-                                                                  Text(
-                                                                    "#${parcel.parcelList[index].trackingId.toString()}",
-                                                                    maxLines: 1,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                  ),
-                                                                  const Spacer(),
-                                                                  Container(
-                                                                    padding: EdgeInsets.all(4.r),
-                                                                    decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                                                                      color: deleveryColor,
-                                                                    ),
-                                                                    alignment: Alignment.center,
-                                                                    child: SizedBox(
-                                                                      width: 70,
-                                                                      child: Text(
-                                                                        parcel.parcelList[index].statusName.toString(),
-                                                                        maxLines: 2,
-                                                                        style: TextStyle(fontSize: 8.sp),
-                                                                        textAlign: TextAlign.center,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              parcel.parcelList[index].customerName.toString(),
-                                                              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: Colors.grey),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 2,
-                                                            ),
-                                                            Row(
-                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      child: parcel.parcelList.isEmpty
+                                          ? Center(
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                height: MediaQuery.sizeOf(context).height * .6,
+                                                width: MediaQuery.sizeOf(context).height * .6,
+                                                child: Text(
+                                                  'Empty',
+                                                  style: GoogleFonts.abel(
+                                                    fontSize: 27,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : ListView.builder(
+                                              // primary: false,
+                                              shrinkWrap: true,
+                                              physics: const NeverScrollableScrollPhysics(),
+                                              itemCount: parcel.parcelList.length,
+                                              itemBuilder: (BuildContext context, index) {
+                                                return Padding(
+                                                  padding: EdgeInsets.all(5.r),
+                                                  child: InkWell(
+                                                    onTap: () => ParcelDetails(parcel: parcel.parcelList[index], id: parcel.parcelList[index].id).launch(context),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r), color: Colors.white, border: Border.all(color: itembg)),
+                                                      child: Padding(
+                                                        padding: EdgeInsets.all(8.r),
+                                                        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                                                          SizedBox(
+                                                            width: 4.w,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 300.w,
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
+                                                                Padding(
+                                                                  padding: EdgeInsets.only(top: 6.h, bottom: 10.h),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Text(
+                                                                        "trackingId".tr,
+                                                                        style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500),
+                                                                      ),
+                                                                      Text(
+                                                                        "#${parcel.parcelList[index].trackingId.toString()}",
+                                                                        maxLines: 1,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                      ),
+                                                                      const Spacer(),
+                                                                      Container(
+                                                                        padding: EdgeInsets.all(4.r),
+                                                                        decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                                                                          color: deleveryColor,
+                                                                        ),
+                                                                        alignment: Alignment.center,
+                                                                        child: SizedBox(
+                                                                          width: 70,
+                                                                          child: Text(
+                                                                            parcel.parcelList[index].statusName.toString(),
+                                                                            maxLines: 2,
+                                                                            style: TextStyle(fontSize: 8.sp),
+                                                                            textAlign: TextAlign.center,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
                                                                 Text(
-                                                                  parcel.parcelList[index].customerPhone.toString(),
+                                                                  parcel.parcelList[index].customerName.toString(),
                                                                   style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: Colors.grey),
                                                                 ),
-                                                                parcel.parcelList[index].invoicePaymentStatus == 1 ? Text('Failed') : SizedBox.shrink(),
-                                                                parcel.parcelList[index].invoicePaymentStatus == 2 ? Text('Payment: Processing') : SizedBox.shrink(),
-                                                                parcel.parcelList[index].invoicePaymentStatus == 3 ? Text('Paid') : SizedBox.shrink(),
-                                                                parcel.parcelList[index].invoicePaymentStatus == 0
-                                                                    ? OutlinedButton.icon(
-                                                                        onPressed: () {
-                                                                          Get.to(
-                                                                            () => PaymentScreen(paymentID: parcel.parcelList[index].paymentId!, amount: parcel.parcelList[index].currentPayable!),
-                                                                          );
-                                                                        },
-                                                                        label: Text('Pay'),
-                                                                        icon: Icon(Icons.monetization_on_outlined),
+                                                                const SizedBox(
+                                                                  height: 2,
+                                                                ),
+                                                                Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    Text(
+                                                                      parcel.parcelList[index].customerPhone.toString(),
+                                                                      style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: Colors.grey),
+                                                                    ),
+                                                                    parcel.parcelList[index].invoicePaymentStatus == 1 ? Text('Failed') : SizedBox.shrink(),
+                                                                    parcel.parcelList[index].invoicePaymentStatus == 2 ? Text('Payment: Processing') : SizedBox.shrink(),
+                                                                    parcel.parcelList[index].invoicePaymentStatus == 3 ? Text('Paid') : SizedBox.shrink(),
+                                                                    parcel.parcelList[index].invoicePaymentStatus == 0
+                                                                        ? OutlinedButton.icon(
+                                                                            onPressed: () {
+                                                                              Get.to(
+                                                                                () => PaymentScreen(paymentID: parcel.parcelList[index].paymentId!, amount: parcel.parcelList[index].currentPayable!),
+                                                                              );
+                                                                            },
+                                                                            label: Text('Pay'),
+                                                                            icon: Icon(Icons.monetization_on_outlined),
+                                                                          )
+                                                                        : SizedBox.shrink(),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 8.h,
+                                                                ),
+                                                                Text(
+                                                                  parcel.parcelList[index].customerAddress ?? '',
+                                                                  style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: Colors.grey),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 8.h,
+                                                                ),
+                                                                Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    Text(
+                                                                      "total".tr,
+                                                                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                                                                    ),
+                                                                    Text(
+                                                                      " ${Get.find<GlobalController>().currency!}${parcel.parcelList[index].cashCollection.toString()}",
+                                                                    ),
+                                                                    const Spacer(),
+                                                                    Text(
+                                                                      "SEE_PARCEL_DETAILS".tr,
+                                                                      style: TextStyle(color: kMainColor),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: 2.w,
+                                                                    ),
+                                                                    const Icon(
+                                                                      IconData(0xe09c, fontFamily: 'MaterialIcons', matchTextDirection: true),
+                                                                      color: kMainColor,
+                                                                      size: 16.0,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                parcel.parcelList[index].status == 9
+                                                                    ? Padding(
+                                                                        padding: const EdgeInsets.only(bottom: 8.0, top: 5),
+                                                                        child: Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Row(
+                                                                              children: [
+                                                                                parcel.parcelList[index].reviewStar != null ? Text('Review: ') : Text(''),
+                                                                                parcel.parcelList[index].reviewStar != null ? Text(parcel.parcelList[index].reviewStar.toString()) : Text(''),
+                                                                                SizedBox(width: 4),
+                                                                                parcel.parcelList[index].reviewStar != null
+                                                                                    ? Icon(
+                                                                                        Icons.star_border_outlined,
+                                                                                        size: 20,
+                                                                                        color: parcel.parcelList[index].reviewStar! > 0 ? Colors.orangeAccent : Colors.grey,
+                                                                                      )
+                                                                                    : Text(''),
+                                                                              ],
+                                                                            ),
+                                                                            OutlinedButton(
+                                                                                onPressed: () {
+                                                                                  showDialog(
+                                                                                    context: context,
+                                                                                    builder: (context) {
+                                                                                      return Dialog(
+                                                                                        child: RatingBar.builder(
+                                                                                          initialRating: 3,
+                                                                                          minRating: 1,
+                                                                                          direction: Axis.horizontal,
+                                                                                          allowHalfRating: true,
+                                                                                          itemCount: 5,
+                                                                                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                                                                          itemBuilder: (context, _) => Icon(
+                                                                                            Icons.star,
+                                                                                            color: Colors.amber,
+                                                                                          ),
+                                                                                          onRatingUpdate: (rating) {
+                                                                                            var i = rating.toInt();
+                                                                                            reviewController.giveReview(parcel_id: parcel.parcelList[index].id, star: i);
+                                                                                          },
+                                                                                        ),
+                                                                                      );
+                                                                                    },
+                                                                                  );
+                                                                                },
+                                                                                child: Text('Give Review'))
+                                                                          ],
+                                                                        ),
                                                                       )
                                                                     : SizedBox.shrink(),
                                                               ],
                                                             ),
-                                                            SizedBox(
-                                                              height: 8.h,
-                                                            ),
-                                                            Text(
-                                                              parcel.parcelList[index].customerAddress.toString(),
-                                                              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: Colors.grey),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 8.h,
-                                                            ),
-                                                            Row(
-                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                              children: [
-                                                                Text(
-                                                                  "total".tr,
-                                                                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                                                                ),
-                                                                Text(
-                                                                  " ${Get.find<GlobalController>().currency!}${parcel.parcelList[index].cashCollection.toString()}",
-                                                                ),
-                                                                const Spacer(),
-                                                                Text(
-                                                                  "SEE_PARCEL_DETAILS".tr,
-                                                                  style: TextStyle(color: kMainColor),
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 2.w,
-                                                                ),
-                                                                const Icon(
-                                                                  IconData(0xe09c, fontFamily: 'MaterialIcons', matchTextDirection: true),
-                                                                  color: kMainColor,
-                                                                  size: 16.0,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            parcel.parcelList[index].status == 9
-                                                                ? Padding(
-                                                                    padding: const EdgeInsets.only(bottom: 8.0, top: 5),
-                                                                    child: Row(
-                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                      children: [
-                                                                        Row(
-                                                                          children: [
-                                                                            parcel.parcelList[index].reviewStar != null ? Text('Review: ') : Text(''),
-                                                                            parcel.parcelList[index].reviewStar != null ? Text(parcel.parcelList[index].reviewStar.toString()) : Text(''),
-                                                                            SizedBox(width: 4),
-                                                                            parcel.parcelList[index].reviewStar != null
-                                                                                ? Icon(
-                                                                                    Icons.star_border_outlined,
-                                                                                    size: 20,
-                                                                                    color: parcel.parcelList[index].reviewStar! > 0 ? Colors.orangeAccent : Colors.grey,
-                                                                                  )
-                                                                                : Text(''),
-                                                                          ],
-                                                                        ),
-                                                                        OutlinedButton(
-                                                                            onPressed: () {
-                                                                              showDialog(
-                                                                                context: context,
-                                                                                builder: (context) {
-                                                                                  return Dialog(
-                                                                                    child: RatingBar.builder(
-                                                                                      initialRating: 3,
-                                                                                      minRating: 1,
-                                                                                      direction: Axis.horizontal,
-                                                                                      allowHalfRating: true,
-                                                                                      itemCount: 5,
-                                                                                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                                                                      itemBuilder: (context, _) => Icon(
-                                                                                        Icons.star,
-                                                                                        color: Colors.amber,
-                                                                                      ),
-                                                                                      onRatingUpdate: (rating) {
-                                                                                        var i = rating.toInt();
-                                                                                        reviewController.giveReview(parcel_id: parcel.parcelList[index].id, star: i);
-                                                                                      },
-                                                                                    ),
-                                                                                  );
-                                                                                },
-                                                                              );
-                                                                            },
-                                                                            child: Text('Give Review'))
-                                                                      ],
-                                                                    ),
-                                                                  )
-                                                                : SizedBox.shrink(),
-                                                          ],
-                                                        ),
-                                                      )
-                                                    ]),
+                                                          )
+                                                        ]),
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                            );
-                                          }),
+                                                );
+                                              }),
                                     ))))
                   ],
                 ),

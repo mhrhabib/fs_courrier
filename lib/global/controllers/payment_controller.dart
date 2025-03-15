@@ -25,7 +25,7 @@ class PaymentController extends GetxController {
         paymentType: paymentType,
         url: url,
       );
-      print(response);
+      print('<><><><><><><><><><response><><><><><><> $response');
 
       // Wait for 10 seconds (simulating payment processing)
       // await Future.delayed(Duration(seconds: 10));

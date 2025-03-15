@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -10,7 +9,7 @@ import '../Widgets/button_global.dart';
 import '../Widgets/constant.dart';
 
 class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({Key? key}) : super(key: key);
+  const ForgotPassword({super.key});
 
   @override
   State<ForgotPassword> createState() => _ForgotPasswordState();
@@ -69,7 +68,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       SizedBox(height: 20.0),
+                      SizedBox(height: 20.0),
                       Text(
                         'dont_worry_we_ll_send_you_an_email_to_reset_your_password.'.tr,
                         style: kTextStyle.copyWith(
@@ -86,19 +85,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           labelStyle: kTextStyle.copyWith(color: kTitleColor),
                           hintText: 'courier@gmail.com',
                           hintStyle: kTextStyle.copyWith(color: kGreyTextColor),
-                          suffixIcon:
-                              const Icon(Icons.mail, color: kGreyTextColor),
+                          suffixIcon: const Icon(Icons.mail, color: kGreyTextColor),
                         ),
                       ),
                       const SizedBox(height: 20.0),
                       ButtonGlobal(
                         buttontext: 'send_password_reset_link'.tr,
-                        buttonDecoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30.0),
-                            color: kMainColor),
+                        buttonDecoration: BoxDecoration(borderRadius: BorderRadius.circular(30.0), color: kMainColor),
                         onPressed: () {
                           setState(() {
-                             OtpVerify(mobile: '',).launch(context);
+                            OtpVerify(
+                              mobile: '',
+                            ).launch(context);
                           });
                         },
                       ),

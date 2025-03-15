@@ -1,16 +1,13 @@
 import 'package:fs_currier/Screen/Parcel/location_selection_screen.dart';
 import 'package:fs_currier/global/controllers/global_controller.dart';
 import 'package:fs_currier/utils/storage.dart';
-
 import '../../MapAddress/flutter_google_places_web.dart';
 import '../../services/api_list.dart';
 import '../Widgets/custom_dropdown.dart';
-import '../Widgets/dropdown_with_search.dart';
 import '/Screen/Widgets/button_global.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
-
 import '../../Controllers/parcel_controller.dart';
 import '../../Models/parcel_crate_model.dart';
 import '../../utils/size_config.dart';
@@ -120,6 +117,8 @@ class _CreateParcelState extends State<CreateParcel> {
   ];
 
   String? selectedPayment;
+  String? selectedCategory;
+  int? selectedWeight;
 
   @override
   void initState() {
@@ -313,23 +312,23 @@ class _CreateParcelState extends State<CreateParcel> {
                                         hintStyle: kTextStyle.copyWith(color: kGreyTextColor),
                                       ),
                                     ),
-                                    const SizedBox(height: 20.0),
-                                    AppTextField(
-                                      controller: parcel.invoiceController,
-                                      cursorColor: kTitleColor,
-                                      isValidationRequired: false,
-                                      textFieldType: TextFieldType.NAME,
-                                      decoration: kInputDecoration.copyWith(
-                                        enabledBorder: const OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                                          borderSide: BorderSide(color: kBorderColorTextField, width: 2),
-                                        ),
-                                        labelText: '${'invoice'.tr}#',
-                                        labelStyle: kTextStyle.copyWith(color: kTitleColor),
-                                        hintText: 'enter_invoice_number'.tr,
-                                        hintStyle: kTextStyle.copyWith(color: kGreyTextColor),
-                                      ),
-                                    ),
+                                    // const SizedBox(height: 20.0),
+                                    // AppTextField(
+                                    //   controller: parcel.invoiceController,
+                                    //   cursorColor: kTitleColor,
+                                    //   isValidationRequired: false,
+                                    //   textFieldType: TextFieldType.NAME,
+                                    //   decoration: kInputDecoration.copyWith(
+                                    //     enabledBorder: const OutlineInputBorder(
+                                    //       borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                    //       borderSide: BorderSide(color: kBorderColorTextField, width: 2),
+                                    //     ),
+                                    //     labelText: '${'invoice'.tr}#',
+                                    //     labelStyle: kTextStyle.copyWith(color: kTitleColor),
+                                    //     hintText: 'enter_invoice_number'.tr,
+                                    //     hintStyle: kTextStyle.copyWith(color: kGreyTextColor),
+                                    //   ),
+                                    // ),
                                     const SizedBox(height: 20.0),
                                     parcel.deliveryChargesList.isEmpty
                                         ? SizedBox()
@@ -829,9 +828,9 @@ class _CreateParcelState extends State<CreateParcel> {
                                           setState(() {
                                             FocusScope.of(context).requestFocus(FocusNode());
                                             if (_formKey.currentState!.validate()) {
-                                              if (parcel.deliveryChargesID != '' && parcel.deliveryTypID != '' && parcel.shipmentType != 0) {
+                                              if (parcel.deliveryTypID != '' && parcel.shipmentType != 0) {
                                                 parcel.calculateTotal(context);
-                                              } else if (parcel.deliveryChargesID == '') {
+                                              } else if (parcel.deliveryTypID == '') {
                                                 Get.rawSnackbar(message: "Please select category", backgroundColor: Colors.red, snackPosition: SnackPosition.TOP);
                                               } else if (parcel.deliveryTypID == '') {
                                                 Get.rawSnackbar(message: "Please select delivery type", backgroundColor: Colors.red, snackPosition: SnackPosition.TOP);

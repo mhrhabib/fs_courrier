@@ -52,10 +52,6 @@ class ParcelEDitController extends GetxController {
   double vatAmount = 0;
   double merchantCodCharges = 0;
 
-
-
-
-
   TextEditingController pickupPhoneController = TextEditingController();
   TextEditingController pickupAddressController = TextEditingController();
   TextEditingController cashCollectionController = TextEditingController();
@@ -66,16 +62,13 @@ class ParcelEDitController extends GetxController {
   TextEditingController customerAddressController = TextEditingController();
   TextEditingController noteController = TextEditingController();
 
-
   List<ParcelEvents> parcelLogsList = <ParcelEvents>[];
   late Parcel parcel;
-
 
   @override
   void onInit() {
     super.onInit();
   }
-
 
   parcelUpdate(parcelID) {
     loaderParcel = true;
@@ -95,27 +88,33 @@ class ParcelEDitController extends GetxController {
     Map body = {
       'chargeDetails': jsonEncode(chargeDetails),
       'shop_id': shopID,
-      'weight': deliveryChargesValue.weight == '0'?'':deliveryChargesValue.weight,
+      'weight': deliveryChargesValue.weight == '0' ? '' : deliveryChargesValue.weight,
       'pickup_phone': pickupPhoneController.text.toString(),
       'pickup_address': pickupAddressController.text.toString(),
       'invoice_no': invoiceController.text.toString(),
       'cash_collection': cashCollectionController.text.toString(),
       'selling_price': sellingPriceController.text.toString(),
       'category_id': deliveryChargesValue.categoryId.toString(),
-      'delivery_type_id': deliveryTypID == 'Next Day'? 1: deliveryTypID == 'Same Day'?2: deliveryTypID == 'Sub City'?3: deliveryTypID == 'Outside City'?4:'',
+      'delivery_type_id': deliveryTypID == 'Next Day'
+          ? 1
+          : deliveryTypID == 'Same Day'
+              ? 2
+              : deliveryTypID == 'Sub City'
+                  ? 3
+                  : deliveryTypID == 'Outside City'
+                      ? 4
+                      : '',
       'customer_name': customerController.text.toString(),
       'customer_address': customerAddressController.text.toString(),
       'customer_phone': customerPhoneController.text.toString(),
       'note': noteController.text.toString(),
-      'parcel_bank': isParcelBankCheck ? 'on':'',
-      'packaging_id': packagingID == '0'?'':packagingID,
-      'fragileLiquid': isLiquidChecked ? 'on':'',
+      'parcel_bank': isParcelBankCheck ? 'on' : '',
+      'packaging_id': packagingID == '0' ? '' : packagingID,
+      'fragileLiquid': isLiquidChecked ? 'on' : '',
     };
     String jsonBody = json.encode(body);
-    server
-        .postRequestWithToken(endPoint: APIList.parcelUpdate!+'${parcelID}', body: jsonBody)
-        .then((response) {
-          print(json.decode(response.body));
+    server.postRequestWithToken(endPoint: APIList.parcelUpdate! + '${parcelID}', body: jsonBody).then((response) {
+      print(json.decode(response.body));
       if (response != null && response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
         clearAll();
@@ -125,10 +124,7 @@ class ParcelEDitController extends GetxController {
         });
         Get.find<ParcelController>().getParcelList();
         Get.back();
-        Get.rawSnackbar(
-            message: "${jsonResponse['message']}",
-            backgroundColor: Colors.green,
-            snackPosition: SnackPosition.TOP);
+        Get.rawSnackbar(message: "${jsonResponse['message']}", backgroundColor: Colors.green, snackPosition: SnackPosition.TOP);
       } else if (response != null && response.statusCode == 422) {
         loaderParcel = false;
         Future.delayed(Duration(milliseconds: 10), () {
@@ -145,116 +141,113 @@ class ParcelEDitController extends GetxController {
   }
 
   clearAll() {
-     fragileLiquidAmount = 0;
-     fragileLiquidAmounts = 0;
-     shopIndex = 0;
-     packagingIndex = 0;
-     deliveryChargesIndex = 0;
-     deliveryChargesValue = DeliveryCharges();
-     pickupPhone = '';
-     pickupAddress = '';
-     shopID = '';
-     packagingID = '';
-     packagingPrice = '0';
-     deliveryChargesID = '';
-     deliveryTypID = 'Same Day';
-     deliveryChargesPrice = '0';
-      isLiquidChecked = false;
-      isParcelBankCheck = false;
-      pickupPhoneController.text = '';
-      pickupAddressController.text = '';
-      cashCollectionController.text = '';
-      sellingPriceController.text = '';
-      invoiceController.text = '';
-      customerController.text = '';
-      customerPhoneController.text = '';
-      customerAddressController.text = '';
-      noteController.text = '';
-      vatTax = 0;
-      vatAmount = 0;
-      merchantCodCharges = 0;
-      totalCashCollection = 0;
-      deliveryChargeAmount = 0;
-      codChargeAmount = 0;
-      packagingAmount = 0;
-      totalDeliveryChargeAmount = 0;
-      currentPayable = 0;
-     netPayable = 0;
+    fragileLiquidAmount = 0;
+    fragileLiquidAmounts = 0;
+    shopIndex = 0;
+    packagingIndex = 0;
+    deliveryChargesIndex = 0;
+    deliveryChargesValue = DeliveryCharges();
+    pickupPhone = '';
+    pickupAddress = '';
+    shopID = '';
+    packagingID = '';
+    packagingPrice = '0';
+    deliveryChargesID = '';
+    deliveryTypID = 'Same Day';
+    deliveryChargesPrice = '0';
+    isLiquidChecked = false;
+    isParcelBankCheck = false;
+    pickupPhoneController.text = '';
+    pickupAddressController.text = '';
+    cashCollectionController.text = '';
+    sellingPriceController.text = '';
+    invoiceController.text = '';
+    customerController.text = '';
+    customerPhoneController.text = '';
+    customerAddressController.text = '';
+    noteController.text = '';
+    vatTax = 0;
+    vatAmount = 0;
+    merchantCodCharges = 0;
+    totalCashCollection = 0;
+    deliveryChargeAmount = 0;
+    codChargeAmount = 0;
+    packagingAmount = 0;
+    totalDeliveryChargeAmount = 0;
+    currentPayable = 0;
+    netPayable = 0;
     Future.delayed(Duration(milliseconds: 10), () {
       update();
     });
   }
 
-  void calculateTotal(context,parcelID) {
-      totalDeliveryChargeAmount   = 0;
-      totalCashCollection = 0;
-      codChargeAmount = 0;
-      totalDeliveryChargeAmount = 0;
-      vatAmount = 0;
-      netPayable = 0;
-      currentPayable = 0;
-      merchantCodCharges = 0;
-      packagingAmount = 0;
+  void calculateTotal(context, parcelID) {
+    totalDeliveryChargeAmount = 0;
+    totalCashCollection = 0;
+    codChargeAmount = 0;
+    totalDeliveryChargeAmount = 0;
+    vatAmount = 0;
+    netPayable = 0;
+    currentPayable = 0;
+    merchantCodCharges = 0;
+    packagingAmount = 0;
+    fragileLiquidAmounts = 0;
+
+    double deliveryChargeAmount = 0;
+    double merchantCodCharge = 0;
+
+    if (deliveryTypID == 'Same Day') {
+      deliveryChargeAmount = double.parse(deliveryChargesValue.sameDay.toString());
+      merchantCodCharge = double.parse(merchantData.codCharges!.insideCity.toString());
+    } else if (deliveryTypID == 'Next Day') {
+      deliveryChargeAmount = double.parse(deliveryChargesValue.nextDay.toString());
+      merchantCodCharge = double.parse(merchantData.codCharges!.insideCity.toString());
+    } else if (deliveryTypID == 'Sub City') {
+      deliveryChargeAmount = double.parse(deliveryChargesValue.subCity.toString());
+      merchantCodCharge = double.parse(merchantData.codCharges!.subCity.toString());
+    } else if (deliveryTypID == 'Outside City') {
+      deliveryChargeAmount = double.parse(deliveryChargesValue.outsideCity.toString());
+      merchantCodCharge = double.parse(merchantData.codCharges!.outsideCity.toString());
+    } else {
+      deliveryChargeAmount = 0;
+      merchantCodCharge = 0;
+    }
+    packagingAmount = double.parse(packagingPrice.toString());
+    totalCashCollection = double.parse(cashCollectionController.text.toString());
+    codChargeAmount = percentage(totalCashCollection, merchantCodCharge);
+    if (isLiquidChecked) {
+      totalDeliveryChargeAmount = (deliveryChargeAmount + codChargeAmount + fragileLiquidAmount + packagingAmount);
+      fragileLiquidAmounts = fragileLiquidAmount;
+    } else {
+      totalDeliveryChargeAmount = (deliveryChargeAmount + codChargeAmount + packagingAmount);
       fragileLiquidAmounts = 0;
+    }
 
-      double deliveryChargeAmount =  0;
-      double merchantCodCharge    = 0;
+    vatAmount = percentage(totalDeliveryChargeAmount, vatTax);
+    netPayable = (totalDeliveryChargeAmount + vatAmount);
+    currentPayable = (totalCashCollection - (totalDeliveryChargeAmount + vatAmount));
+    merchantCodCharges = merchantCodCharge;
+    print('packagingAmount==> ' + '${packagingAmount}');
+    print('deliveryChargeAmount==> ' + '${deliveryChargeAmount}');
+    print('totalDeliveryChargeAmount==> ' + '${totalDeliveryChargeAmount}');
+    print('totalCashCollection==> ' + '${totalCashCollection}');
+    print('vatAmount==> ' + '${vatAmount}');
+    print('codChargeAmount==> ' + '${codChargeAmount}');
+    print('netPayable==> ' + '${netPayable}');
+    print('currentPayable==> ' + '${currentPayable}');
 
-      if(deliveryTypID == 'Same Day'){
-            deliveryChargeAmount = double.parse(deliveryChargesValue.sameDay.toString());
-            merchantCodCharge = double.parse(merchantData.codCharges!.insideCity.toString());
-        }else if (deliveryTypID == 'Next Day') {
-        deliveryChargeAmount = double.parse(deliveryChargesValue.nextDay.toString());
-        merchantCodCharge = double.parse(merchantData.codCharges!.insideCity.toString());
-
-      } else if (deliveryTypID == 'Sub City') {
-        deliveryChargeAmount = double.parse(deliveryChargesValue.subCity.toString());
-        merchantCodCharge = double.parse(merchantData.codCharges!.subCity.toString());
-
-      }else if (deliveryTypID == 'Outside City') {
-        deliveryChargeAmount = double.parse(deliveryChargesValue.outsideCity.toString());
-        merchantCodCharge = double.parse(merchantData.codCharges!.outsideCity.toString());
-
-      }else {
-          deliveryChargeAmount = 0;
-          merchantCodCharge = 0;
-      }
-      packagingAmount = double.parse(packagingPrice.toString());
-       totalCashCollection          =  double.parse(cashCollectionController.text.toString());
-       codChargeAmount              =  percentage(totalCashCollection, merchantCodCharge);
-       if(isLiquidChecked){
-         totalDeliveryChargeAmount    = (deliveryChargeAmount+codChargeAmount+fragileLiquidAmount+packagingAmount);
-         fragileLiquidAmounts = fragileLiquidAmount;
-       }else {
-         totalDeliveryChargeAmount    = (deliveryChargeAmount+codChargeAmount+packagingAmount);
-         fragileLiquidAmounts = 0;
-       }
-
-      vatAmount                    = percentage(totalDeliveryChargeAmount, vatTax);
-       netPayable                   = (totalDeliveryChargeAmount + vatAmount);
-        currentPayable               = (totalCashCollection - (totalDeliveryChargeAmount + vatAmount));
-        merchantCodCharges           = merchantCodCharge;
-       print('packagingAmount==> '+ '${packagingAmount}');
-       print('deliveryChargeAmount==> '+ '${deliveryChargeAmount}');
-       print('totalDeliveryChargeAmount==> '+ '${totalDeliveryChargeAmount}');
-       print('totalCashCollection==> '+ '${totalCashCollection}');
-       print('vatAmount==> '+ '${vatAmount}');
-       print('codChargeAmount==> '+ '${codChargeAmount}');
-       print('netPayable==> '+ '${netPayable}');
-       print('currentPayable==> '+ '${currentPayable}');
-
-       showPopUp(context,parcelID, totalCashCollection,deliveryChargeAmount,codChargeAmount,fragileLiquidAmounts,packagingAmount,totalDeliveryChargeAmount,vatAmount,netPayable,currentPayable);
-      Future.delayed(Duration(milliseconds: 10), () {
+    showPopUp(context, parcelID, totalCashCollection, deliveryChargeAmount, codChargeAmount, fragileLiquidAmounts, packagingAmount, totalDeliveryChargeAmount, vatAmount, netPayable, currentPayable);
+    Future.delayed(Duration(milliseconds: 10), () {
       update();
-      });
+    });
   }
 
-  percentage(totalAmount,percentageAmount) {
+  percentage(totalAmount, percentageAmount) {
     return totalAmount * (percentageAmount / 100);
   }
 
-
-  void showPopUp(context,parcelID, totalCashCollectionParcel,deliveryChargeAmountParcel,codChargeAmountParcel,fragileLiquidAmountsParcel,packagingAmountParcel,totalDeliveryChargeAmountParcel,vatAmountParcel,netPayableParcel,currentPayableParcel) {
+  void showPopUp(
+      context, parcelID, totalCashCollectionParcel, deliveryChargeAmountParcel, codChargeAmountParcel, fragileLiquidAmountsParcel, packagingAmountParcel, totalDeliveryChargeAmountParcel, vatAmountParcel, netPayableParcel, currentPayableParcel) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -265,39 +258,29 @@ class ParcelEDitController extends GetxController {
             ),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
-              child:  SingleChildScrollView(
-             child: Column(
+              child: SingleChildScrollView(
+                  child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     'charge_details'.tr,
-                    style: kTextStyle.copyWith(
-                        color: kSecondaryColor,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold),
+                    style: kTextStyle.copyWith(color: kSecondaryColor, fontSize: 18.0, fontWeight: FontWeight.bold),
                   ),
                   ListTile(
                     title: Text(
                       'title'.tr,
-                      style: kTextStyle.copyWith(
-                          color: kTitleColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0),
+                      style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold, fontSize: 16.0),
                     ),
                     trailing: Text(
                       'amount_tk'.tr,
-                      style: kTextStyle.copyWith(
-                          color: kTitleColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0),
+                      style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold, fontSize: 16.0),
                     ),
                   ),
                   Card(
                     child: ListTile(
                       title: Text(
                         'cash_collection'.tr,
-                        style: kTextStyle.copyWith(
-                            color: kTitleColor, fontWeight: FontWeight.bold),
+                        style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
                       ),
                       trailing: Text(
                         '${totalCashCollectionParcel.toStringAsFixed(2)}',
@@ -309,8 +292,7 @@ class ParcelEDitController extends GetxController {
                     child: ListTile(
                       title: Text(
                         'delivery_charges'.tr,
-                        style: kTextStyle.copyWith(
-                            color: kTitleColor, fontWeight: FontWeight.bold),
+                        style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
                       ),
                       trailing: Text(
                         '${deliveryChargeAmountParcel.toStringAsFixed(2)}',
@@ -322,8 +304,7 @@ class ParcelEDitController extends GetxController {
                     child: ListTile(
                       title: Text(
                         'cod_charge'.tr,
-                        style: kTextStyle.copyWith(
-                            color: kTitleColor, fontWeight: FontWeight.bold),
+                        style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
                       ),
                       trailing: Text(
                         '${codChargeAmountParcel.toStringAsFixed(2)}',
@@ -335,8 +316,7 @@ class ParcelEDitController extends GetxController {
                     child: ListTile(
                       title: Text(
                         'liquid_fragile_charge'.tr,
-                        style: kTextStyle.copyWith(
-                            color: kTitleColor, fontWeight: FontWeight.bold),
+                        style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
                       ),
                       trailing: Text(
                         '${fragileLiquidAmountsParcel.toStringAsFixed(2)}',
@@ -348,8 +328,7 @@ class ParcelEDitController extends GetxController {
                     child: ListTile(
                       title: Text(
                         'p_charge'.tr,
-                        style: kTextStyle.copyWith(
-                            color: kTitleColor, fontWeight: FontWeight.bold),
+                        style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
                       ),
                       trailing: Text(
                         '${packagingAmountParcel.toStringAsFixed(2)}',
@@ -361,8 +340,7 @@ class ParcelEDitController extends GetxController {
                     child: ListTile(
                       title: Text(
                         'total_charge'.tr,
-                        style: kTextStyle.copyWith(
-                            color: kTitleColor, fontWeight: FontWeight.bold),
+                        style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
                       ),
                       trailing: Text(
                         '${totalDeliveryChargeAmountParcel.toStringAsFixed(2)}',
@@ -374,8 +352,7 @@ class ParcelEDitController extends GetxController {
                     child: ListTile(
                       title: Text(
                         'vat'.tr,
-                        style: kTextStyle.copyWith(
-                            color: kTitleColor, fontWeight: FontWeight.bold),
+                        style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
                       ),
                       trailing: Text(
                         '${vatAmountParcel.toStringAsFixed(2)}',
@@ -387,8 +364,7 @@ class ParcelEDitController extends GetxController {
                     child: ListTile(
                       title: Text(
                         'net_payable'.tr,
-                        style: kTextStyle.copyWith(
-                            color: kTitleColor, fontWeight: FontWeight.bold),
+                        style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
                       ),
                       trailing: Text(
                         '${netPayableParcel.toStringAsFixed(2)}',
@@ -400,8 +376,7 @@ class ParcelEDitController extends GetxController {
                     child: ListTile(
                       title: Text(
                         'current_payable'.tr,
-                        style: kTextStyle.copyWith(
-                            color: kTitleColor, fontWeight: FontWeight.bold),
+                        style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
                       ),
                       trailing: Text(
                         '${currentPayableParcel.toStringAsFixed(2)}',
@@ -410,12 +385,15 @@ class ParcelEDitController extends GetxController {
                     ),
                   ),
                   const SizedBox(height: 30.0),
-                  ButtonGlobal(buttontext: 'confirm'.tr, buttonDecoration: kButtonDecoration, onPressed: (){
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                    parcelUpdate(parcelID);
-                    Get.back();
-                    // Get.off(ParcelPage());
-                  })
+                  ButtonGlobal(
+                      buttontext: 'confirm'.tr,
+                      buttonDecoration: kButtonDecoration,
+                      onPressed: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        parcelUpdate(parcelID);
+                        Get.back();
+                        // Get.off(ParcelPage());
+                      })
                 ],
               )),
             ),
@@ -423,14 +401,12 @@ class ParcelEDitController extends GetxController {
         });
   }
 
-
-
   editParcel(id) {
     loaderLogs = true;
     Future.delayed(Duration(milliseconds: 10), () {
       update();
     });
-    server.getRequest(endPoint: APIList.parcelEdit!+id.toString()).then((response) {
+    server.getRequest(endPoint: APIList.parcelEdit! + id.toString()).then((response) {
       if (response != null && response.statusCode == 200) {
         loader = false;
         final jsonResponse = json.decode(response.body);
@@ -442,41 +418,58 @@ class ParcelEDitController extends GetxController {
         shopList = <Shops>[];
         shopList.addAll(editData.data!.shops!);
         packagingList = <Packagings>[];
-        packagingList.add(Packagings(id:0,name: 'select_packaging'.tr,price: '0',));
+        packagingList.add(Packagings(
+          id: 0,
+          name: 'select_packaging'.tr,
+          price: '0',
+        ));
         packagingList.addAll(editData.data!.packagings!);
         deliveryChargesList = <DeliveryCharges>[];
-        deliveryChargesList.add(DeliveryCharges(id:0,category: 'select_category'.tr,weight: '0',));
+        deliveryChargesList.add(DeliveryCharges(
+          id: 0,
+          category: 'select_category'.tr,
+          weight: '0',
+        ));
         deliveryChargesList.addAll(editData.data!.deliveryCharges!);
-        if(shopList.isNotEmpty){
+        if (shopList.isNotEmpty) {
           pickupPhone = shopList[shopIndex].contactNo.toString();
           pickupAddress = shopList[shopIndex].address.toString();
           shopID = shopList[shopIndex].id.toString();
         }
-        deliveryChargesIndex = deliveryChargesList.indexWhere((i){
-          if(i.categoryId == editData.data!.parcel!.categoryId.toString() && i.weight == editData.data!.parcel!.weight.toString()) {
+        deliveryChargesIndex = deliveryChargesList.indexWhere((i) {
+          if (i.categoryId == editData.data!.parcel!.categoryId.toString() && i.weight == editData.data!.parcel!.weight.toString()) {
             return true;
-          }else if(i.categoryId == editData.data!.parcel!.categoryId.toString()){
+          } else if (i.categoryId == editData.data!.parcel!.categoryId.toString()) {
             return true;
           }
           return false;
         });
-        if(deliveryChargesIndex.toString() != '-1'){
+        if (deliveryChargesIndex.toString() != '-1') {
           deliveryChargesID = deliveryChargesList[deliveryChargesIndex].categoryId.toString();
           print(deliveryChargesIndex);
           deliveryChargesValue = deliveryChargesList[deliveryChargesIndex];
-        }else {
+        } else {
           deliveryChargesIndex = 0;
         }
 
-        deliveryTypID = editData.data!.parcel!.deliveryTypeId == '1' ? 'Same Day':editData.data!.parcel!.deliveryTypeId == '2' ?'Next Day':editData.data!.parcel!.deliveryTypeId == '3' ? 'Sub City':editData.data!.parcel!.deliveryTypeId == '4' ? 'Outside City':'Same Day';
-        if(editData.data!.parcel!.liquidFragileAmount != null || editData.data!.parcel!.liquidFragileAmount != ''){
+        deliveryTypID = editData.data!.parcel!.deliveryTypeId == '1'
+            ? 'Same Day'
+            : editData.data!.parcel!.deliveryTypeId == '2'
+                ? 'Next Day'
+                : editData.data!.parcel!.deliveryTypeId == '3'
+                    ? 'Sub City'
+                    : editData.data!.parcel!.deliveryTypeId == '4'
+                        ? 'Outside City'
+                        : 'Same Day';
+        if (editData.data!.parcel!.liquidFragileAmount != null || editData.data!.parcel!.liquidFragileAmount != '') {
           isLiquidChecked = true;
         }
-        if(editData.data!.parcel!.parcelBank != null){
+        if (editData.data!.parcel!.parcelBank != null) {
           isParcelBankCheck = true;
         }
-        if(editData.data!.parcel!.packagingId != 'null'){
-          packagingIndex =  packagingList.indexWhere((i) => i.id == int.parse(editData.data!.parcel!.packagingId.toString()));;
+        if (editData.data!.parcel!.packagingId != 'null') {
+          packagingIndex = packagingList.indexWhere((i) => i.id == int.parse(editData.data!.parcel!.packagingId.toString()));
+          ;
           packagingID = editData.data!.parcel!.packagingId.toString();
           packagingPrice = packagingList[packagingIndex].price.toString();
         }
@@ -503,6 +496,4 @@ class ParcelEDitController extends GetxController {
       }
     });
   }
-
-
 }

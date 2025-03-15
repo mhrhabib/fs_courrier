@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import '/Controllers/global-controller.dart';
 import '/Screen/Authentication/sign_in.dart';
@@ -22,9 +24,13 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   bool isChecked = true;
   final _formKey = GlobalKey<FormState>();
-  int hub = 1;
+  int? hub;
   AuthController authController = AuthController();
   GlobalController globalController = Get.put(GlobalController());
+
+  final userTypeList = ['Vendor', 'Customer'];
+  String? selectUserType;
+  int? userType;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +107,7 @@ class _SignUpState extends State<SignUp> {
                                     decoration: kInputDecoration.copyWith(
                                       labelText: 'business_name'.tr,
                                       labelStyle: kTextStyle.copyWith(color: kTitleColor),
-                                      hintText: 'wecourier'.tr,
+                                      hintText: 'x courier',
                                       hintStyle: kTextStyle.copyWith(color: kGreyTextColor),
                                     ),
                                   ),
@@ -120,7 +126,7 @@ class _SignUpState extends State<SignUp> {
                                     decoration: kInputDecoration.copyWith(
                                       labelText: 'first_name'.tr,
                                       labelStyle: kTextStyle.copyWith(color: kTitleColor),
-                                      hintText: 'we'.tr,
+                                      hintText: 'first name',
                                       hintStyle: kTextStyle.copyWith(color: kGreyTextColor),
                                     ),
                                   ),
@@ -144,6 +150,22 @@ class _SignUpState extends State<SignUp> {
                                     ),
                                   ),
                                   const SizedBox(height: 20),
+                                  DropDownWidget(
+                                      itemList: userTypeList.map((element) => element).toList(),
+                                      selectedValue: selectUserType,
+                                      initialValue: 'User Type',
+                                      onChanged: (val) {
+                                        setState(() {
+                                          selectUserType = val;
+                                          if (selectUserType == "Vendor") {
+                                            userType = 1;
+                                          } else {
+                                            userType = 0;
+                                          }
+                                        });
+                                      }),
+                                  const SizedBox(height: 20),
+
                                   TextFormField(
                                     cursorColor: kTitleColor,
                                     controller: auth.addressController,
@@ -304,7 +326,15 @@ class _SignUpState extends State<SignUp> {
                                           buttonDecoration: BoxDecoration(borderRadius: BorderRadius.circular(30.0), color: kMainColor),
                                           onPressed: () async {
                                             if (_formKey.currentState!.validate()) {
-                                              await auth.signupOnTap(hub);
+                                              if (userType == null) {
+                                                toast('please select user type ex:vedor/customer');
+                                                return;
+                                              }
+                                              if (hub == null) {
+                                                toast('please select user type ex:vedor/customer');
+                                                return;
+                                              }
+                                              await auth.signupOnTap(hub, userType);
                                             }
                                           })),
                                   Flexible(

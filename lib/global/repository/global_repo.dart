@@ -34,7 +34,7 @@ class GlobalRepo {
     try {
       final response = await BaseClient.get(
         url: APIList.zoneUrl,
-        payload: {'county_id': countyId}, // Pass countyId as a query parameter
+        payload: {'state_id': countyId}, // Pass countyId as a query parameter
       );
       return ZoneModel.fromJson(response.data);
     } catch (e) {

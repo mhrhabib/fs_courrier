@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fs_currier/global/controllers/payment_controller.dart';
+import 'package:fs_currier/utils/stripe_payment_method.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -133,35 +134,35 @@ class PaymentScreenState extends State<PaymentScreen> {
                           hintStyle: kTextStyle.copyWith(color: kGreyTextColor),
                         ),
                       ),
-                    if (_selectedPaymentMethod == 'Card')
-                      Column(
-                        children: [
-                          CreditCardWidget(
-                            cardNumber: cardNumber,
-                            expiryDate: expiryDate,
-                            cardHolderName: cardHolderName,
-                            cvvCode: cvvCode,
-                            showBackView: isCvvFocused,
-                            onCreditCardWidgetChange: (value) {},
-                          ),
-                          CreditCardForm(
-                            formKey: cardFormKey,
-                            cardNumber: cardNumber,
-                            expiryDate: expiryDate,
-                            cardHolderName: cardHolderName,
-                            cvvCode: cvvCode,
-                            onCreditCardModelChange: (creditCardModel) {
-                              setState(() {
-                                cardNumber = creditCardModel.cardNumber;
-                                expiryDate = creditCardModel.expiryDate;
-                                cardHolderName = creditCardModel.cardHolderName;
-                                cvvCode = creditCardModel.cvvCode;
-                                isCvvFocused = creditCardModel.isCvvFocused;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
+                    // if (_selectedPaymentMethod == 'Card')
+                    // Column(
+                    //   children: [
+                    //     CreditCardWidget(
+                    //       cardNumber: cardNumber,
+                    //       expiryDate: expiryDate,
+                    //       cardHolderName: cardHolderName,
+                    //       cvvCode: cvvCode,
+                    //       showBackView: isCvvFocused,
+                    //       onCreditCardWidgetChange: (value) {},
+                    //     ),
+                    //     CreditCardForm(
+                    //       formKey: cardFormKey,
+                    //       cardNumber: cardNumber,
+                    //       expiryDate: expiryDate,
+                    //       cardHolderName: cardHolderName,
+                    //       cvvCode: cvvCode,
+                    //       onCreditCardModelChange: (creditCardModel) {
+                    //         setState(() {
+                    //           cardNumber = creditCardModel.cardNumber;
+                    //           expiryDate = creditCardModel.expiryDate;
+                    //           cardHolderName = creditCardModel.cardHolderName;
+                    //           cvvCode = creditCardModel.cvvCode;
+                    //           isCvvFocused = creditCardModel.isCvvFocused;
+                    //         });
+                    //       },
+                    //     ),
+                    // ],
+                    // ),
                     Gap(12),
                     // Payment Button
                     Center(
@@ -234,24 +235,7 @@ class PaymentScreenState extends State<PaymentScreen> {
         url: '${APIList.server}payments/process',
       );
     } else if (paymentMethod == 'Card') {
-      if (cardFormKey.currentState!.validate()) {
-        // Process card payment
-        print('Card Number: $cardNumber');
-        print('Expiry Date: $expiryDate');
-        print('Card Holder Name: $cardHolderName');
-        print('CVV: $cvvCode');
-
-        // Call your payment gateway API here
-        // Example: Stripe, PayPal, etc.
-        // await paymentController.processCardPayment(
-        //   cardNumber: cardNumber,
-        //   expiryDate: expiryDate,
-        //   cardHolderName: cardHolderName,
-        //   cvv: cvvCode,
-        //   amount: widget.amount,
-        //   paymentId: widget.paymentID,
-        // );
-      }
+      stripePaymentInitialize(context: context, amount: double.parse(widget.amount).round().toString(), currency: 'USD');
     }
   }
 }

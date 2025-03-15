@@ -124,7 +124,7 @@ class GlobalsController extends GetxController {
       isLoadingPickupZones(true);
       final ZoneModel zoneModel = await _globalRepo.getZones(countyId);
       if (zoneModel.success == true) {
-        pickupZones.assignAll(zoneModel.data!);
+        pickupZones.value = zoneModel.data!;
       } else {
         pickupZoneErrorMessage.value = zoneModel.message ?? 'Failed to load pickup zones';
       }
@@ -141,7 +141,7 @@ class GlobalsController extends GetxController {
       isLoadingDropoffZones(true);
       final ZoneModel zoneModel = await _globalRepo.getZones(countyId);
       if (zoneModel.success == true) {
-        dropoffZones.assignAll(zoneModel.data!);
+        dropoffZones.value = zoneModel.data!;
       } else {
         dropoffZoneErrorMessage.value = zoneModel.message ?? 'Failed to load dropoff zones';
       }
@@ -158,7 +158,7 @@ class GlobalsController extends GetxController {
       isLoadingPickupSubZones(true);
       final SubZoneModel subZoneModel = await _globalRepo.getSubZones(zoneId);
       if (subZoneModel.success == true) {
-        pickupSubZones.assignAll(subZoneModel.data!);
+        pickupSubZones.value = subZoneModel.data!;
       } else {
         pickupSubZoneErrorMessage.value = subZoneModel.message ?? 'Failed to load pickup subzones';
       }
@@ -175,7 +175,7 @@ class GlobalsController extends GetxController {
       isLoadingDropoffSubZones(true);
       final SubZoneModel subZoneModel = await _globalRepo.getSubZones(zoneId);
       if (subZoneModel.success == true) {
-        dropoffSubZones.assignAll(subZoneModel.data!);
+        dropoffSubZones.value = subZoneModel.data!;
       } else {
         dropoffSubZoneErrorMessage.value = subZoneModel.message ?? 'Failed to load dropoff subzones';
       }
@@ -192,7 +192,7 @@ class GlobalsController extends GetxController {
       isLoadingPickupFSSpots(true);
       final FSSpotModel fsSpotModel = await _globalRepo.getFSSpots(subZoneId);
       if (fsSpotModel.success == true) {
-        pickupFSSpots.assignAll(fsSpotModel.data!);
+        pickupFSSpots.value = fsSpotModel.data!;
       } else {
         pickupFSSpotErrorMessage.value = fsSpotModel.message ?? 'Failed to load pickup fs-spots';
       }
@@ -209,7 +209,7 @@ class GlobalsController extends GetxController {
       isLoadingDropoffFSSpots(true);
       final FSSpotModel fsSpotModel = await _globalRepo.getFSSpots(subZoneId);
       if (fsSpotModel.success == true) {
-        dropoffFSSpots.assignAll(fsSpotModel.data!);
+        dropoffFSSpots.value = fsSpotModel.data!;
       } else {
         dropoffFSSpotErrorMessage.value = fsSpotModel.message ?? 'Failed to load dropoff fs-spots';
       }

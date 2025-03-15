@@ -7,7 +7,6 @@ import '../Models/parcels_model.dart';
 import '../Models/shop_model.dart';
 import '../Screen/Widgets/button_global.dart';
 import '../Screen/Widgets/constant.dart';
-import '../main.dart';
 import '../services/api_list.dart';
 import '/services/server.dart';
 import '/services/user-service.dart';
@@ -273,7 +272,12 @@ class ParcelController extends GetxController {
           Get.back();
         }
         if (paymentMethod.value == 2 || paymentMethod.value == 3) {
-          Get.off(() => PaymentScreen(paymentID: jsonResponse['data']['payment_id'], amount: jsonResponse['data']['amount']));
+          Get.off(
+            () => PaymentScreen(
+              paymentID: jsonResponse['data']['payment_id'],
+              amount: jsonResponse['data']['amount'],
+            ),
+          );
         }
 
         Get.rawSnackbar(message: "${jsonResponse['message']}", backgroundColor: Colors.green, snackPosition: SnackPosition.TOP);

@@ -56,8 +56,8 @@ class User {
   Hub? hub;
   Merchant? merchant;
   int? merchantTotalParcel;
-  String? merchantTotalCashAmount;
-  String? merchantCurrentPayable;
+  dynamic merchantTotalCashAmount;
+  dynamic merchantCurrentPayable;
   dynamic joiningDate;
   String? address;
   String? salary;
