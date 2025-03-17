@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:fs_currier/utils/keys.dart';
 
+import '../Screen/Parcel/parcel_index.dart';
 import '../services/api_list.dart';
 
 Map<String, dynamic>? intentPaymentData;
@@ -30,8 +31,10 @@ makeIntentforPayment(amount, currency) async {
       },
     );
 
-    print('response from api' + response.statusCode.toString());
-    print('response from api' + response.body);
+    if (kDebugMode) {
+      print('response from api${response.statusCode}');
+    }
+    print('response from api${response.body}');
 
     return jsonDecode(response.body);
   } catch (errorMsg, s) {
@@ -42,7 +45,7 @@ makeIntentforPayment(amount, currency) async {
   }
 }
 
-void stripePaymentInitialize({BuildContext? context, String? amount, String? currency}) async {
+void stripePaymentInitialize({BuildContext? context, String? amount, String? currency, String? paymentid}) async {
   try {
     intentPaymentData = await makeIntentforPayment(amount, currency);
     print(">>>>>>>>S $intentPaymentData");
@@ -56,7 +59,7 @@ void stripePaymentInitialize({BuildContext? context, String? amount, String? cur
       ),
     );
 
-    showPaymentSheet(context!, intentPaymentData!['id'], intentPaymentData!['amount']);
+    showPaymentSheet(context!, paymentid!, intentPaymentData!['amount']);
   } catch (errorMsg, s) {
     if (kDebugMode) {
       print(s);
@@ -72,7 +75,7 @@ void showPaymentSheet(BuildContext context, String id, int amount) async {
 
     print(" >>>>>>>>>>>>>>>>>>  ${data}");
 
-    final PaymentController paymentController = Get.put(PaymentController());
+    final PaymentController paymentController = Get.put(PaymentController(), permanent: true);
 
     paymentController.makePayment(
       amount: amount.toString(),
@@ -86,6 +89,10 @@ void showPaymentSheet(BuildContext context, String id, int amount) async {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Payment successful!')),
     );
+
+    Get.off(() => ParcelPage(
+          height: 0.85,
+        ));
 
     // Clear the payment intent data
     intentPaymentData = null;

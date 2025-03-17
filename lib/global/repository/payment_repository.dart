@@ -12,14 +12,16 @@ class PaymentRepository {
     String? paymentMethod,
     String? paymentType,
     String? url,
+    String? tokenid,
   }) async {
     try {
       var data = {
-        'phone': phone,
+        if (phone != null) 'phone': phone,
         'amount': amount,
         'payment_id': paymentId,
         'payment_method': paymentMethod,
         'payment_type': paymentType,
+        if (tokenid != null) 'tokenId': tokenid,
       };
 
       print(data);

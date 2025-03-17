@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fs_currier/global/payment/payment_screen.dart';
+import 'package:fs_currier/utils/storage.dart';
 import '../Models/parcel_crate_model.dart';
 import '../Models/parcel_logs_model.dart';
 import '../Models/parcels_model.dart';
@@ -222,8 +223,8 @@ class ParcelController extends GetxController {
       'pickup_phone': pickupPhoneController.text.toString(),
       'pickup_address': pickupAddressController.text.toString(),
       'invoice_no': invoiceController.text.toString(),
-      'cash_collection': cashCollectionController.text.toString(),
-      'selling_price': sellingPriceController.text.toString(),
+      'cash_collection': isFsUser ? 0 : cashCollectionController.text.toString(),
+      'selling_price': isFsUser ? 0 : sellingPriceController.text.toString(),
       'category_id': deliveryChargesValue.categoryId.toString(),
       'delivery_type_id': deliveryTypID == 'Regular'
           ? 1
@@ -247,6 +248,16 @@ class ParcelController extends GetxController {
       // 'sender_sub_zone_id': senderSubZoneId.value,
       // 'customer_zone_id': customerZoneId.value,
       // 'customer_sub_zone_id': customerSubZoneId.value,
+      "sender_country_id": selectedCountryId.value,
+      "sender_state_id": selectedCountyId.value,
+      "sender_zone_id": selectedZoneId.value,
+      "sender_sub_zone_id": selectedSubZoneId.value,
+      "sender_fs_point_id": selectedFSSpotId.value,
+      "customer_country_id": toSelectedCountryId.value,
+      "customer_state_id": toSelectedCountyId.value,
+      "customer_zone_id": toSelectedZoneId.value,
+      "customer_sub_zone_id": toSelectedSubZoneId.value,
+      "customer_fs_point_id": toSelectedFSSpotId.value,
       'physical_address': physicalAddressController.text.trim(),
       'pay_status': paymentMethod.value,
     };
@@ -372,7 +383,7 @@ class ParcelController extends GetxController {
       merchantCodCharge = 0;
     }
     packagingAmount = double.parse(packagingPrice.toString());
-    totalCashCollection = double.parse(cashCollectionController.text.toString());
+    totalCashCollection = isFsUser ? 0 : double.parse(cashCollectionController.text.toString());
     codChargeAmount = percentage(totalCashCollection, merchantCodCharge);
     // if (isLiquidChecked) {
     totalDeliveryChargeAmount = (deliveryChargeAmount + codChargeAmount + fragileLiquidAmount + packagingAmount);
@@ -384,7 +395,7 @@ class ParcelController extends GetxController {
 
     vatAmount = percentage(totalDeliveryChargeAmount, vatTax);
     netPayable = (totalDeliveryChargeAmount + vatAmount);
-    currentPayable = (totalCashCollection - (totalDeliveryChargeAmount + vatAmount));
+    currentPayable = isFsUser ? (totalDeliveryChargeAmount + vatAmount) : (totalCashCollection - (totalDeliveryChargeAmount + vatAmount));
     merchantCodCharges = merchantCodCharge;
     print('packagingAmount==> ' + '${packagingAmount}');
     print('deliveryChargeAmount==> ' + '${deliveryChargeAmount}');

@@ -160,7 +160,7 @@ class _SignUpState extends State<SignUp> {
                                           if (selectUserType == "Vendor") {
                                             userType = 1;
                                           } else {
-                                            userType = 0;
+                                            userType = 2;
                                           }
                                         });
                                       }),

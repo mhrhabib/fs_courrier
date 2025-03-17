@@ -155,7 +155,7 @@ class AuthController extends GetxController {
       'mobile': phoneController.text,
       'password': passwordController.text,
       'hub_id': hubID.toString(),
-      'user_type': usertype,
+      'merchant_type': usertype,
     };
     String jsonBody = json.encode(body);
     print(jsonBody);

@@ -4,7 +4,6 @@ import 'package:fs_currier/utils/stripe_payment_method.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:flutter_credit_card/flutter_credit_card.dart'; // Import the package
 import '../../Screen/Widgets/constant.dart';
 import '../../services/api_list.dart';
 
@@ -34,6 +33,7 @@ class PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.paymentID);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kMainColor,
@@ -235,7 +235,12 @@ class PaymentScreenState extends State<PaymentScreen> {
         url: '${APIList.server}payments/process',
       );
     } else if (paymentMethod == 'Card') {
-      stripePaymentInitialize(context: context, amount: double.parse(widget.amount).round().toString(), currency: 'USD');
+      stripePaymentInitialize(
+        context: context,
+        amount: double.parse(widget.amount).round().toString(),
+        currency: 'USD',
+        paymentid: widget.paymentID,
+      );
     }
   }
 }

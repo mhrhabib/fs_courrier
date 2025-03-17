@@ -274,44 +274,48 @@ class _CreateParcelState extends State<CreateParcel> {
                                         hintStyle: kTextStyle.copyWith(color: kGreyTextColor),
                                       ),
                                     ),
-                                    const SizedBox(height: 20.0),
-                                    AppTextField(
-                                      controller: parcel.cashCollectionController,
-                                      validator: (value) {
-                                        if (parcel.cashCollectionController.text.isEmpty) {
-                                          return "this_field_can_t_be_empty".tr;
-                                        }
-                                        return null;
-                                      },
-                                      cursorColor: kTitleColor,
-                                      textFieldType: TextFieldType.NAME,
-                                      decoration: kInputDecoration.copyWith(
-                                        enabledBorder: const OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                                          borderSide: BorderSide(color: kBorderColorTextField, width: 2),
-                                        ),
-                                        labelText: 'cash_collection'.tr,
-                                        labelStyle: kTextStyle.copyWith(color: kTitleColor),
-                                        hintText: 'enter_amount'.tr,
-                                        hintStyle: kTextStyle.copyWith(color: kGreyTextColor),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 20.0),
-                                    AppTextField(
-                                      controller: parcel.sellingPriceController,
-                                      cursorColor: kTitleColor,
-                                      textFieldType: TextFieldType.NAME,
-                                      decoration: kInputDecoration.copyWith(
-                                        enabledBorder: const OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                                          borderSide: BorderSide(color: kBorderColorTextField, width: 2),
-                                        ),
-                                        labelText: 'selling_price'.tr,
-                                        labelStyle: kTextStyle.copyWith(color: kTitleColor),
-                                        hintText: 'selling_price_of_parcel'.tr,
-                                        hintStyle: kTextStyle.copyWith(color: kGreyTextColor),
-                                      ),
-                                    ),
+                                    isFsUser ? SizedBox.shrink() : const SizedBox(height: 20.0),
+                                    isFsUser
+                                        ? SizedBox.shrink()
+                                        : AppTextField(
+                                            controller: parcel.cashCollectionController,
+                                            validator: (value) {
+                                              if (parcel.cashCollectionController.text.isEmpty) {
+                                                return "this_field_can_t_be_empty".tr;
+                                              }
+                                              return null;
+                                            },
+                                            cursorColor: kTitleColor,
+                                            textFieldType: TextFieldType.NAME,
+                                            decoration: kInputDecoration.copyWith(
+                                              enabledBorder: const OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                                borderSide: BorderSide(color: kBorderColorTextField, width: 2),
+                                              ),
+                                              labelText: 'cash_collection'.tr,
+                                              labelStyle: kTextStyle.copyWith(color: kTitleColor),
+                                              hintText: 'enter_amount'.tr,
+                                              hintStyle: kTextStyle.copyWith(color: kGreyTextColor),
+                                            ),
+                                          ),
+                                    isFsUser ? SizedBox.shrink() : const SizedBox(height: 20.0),
+                                    isFsUser
+                                        ? SizedBox.shrink()
+                                        : AppTextField(
+                                            controller: parcel.sellingPriceController,
+                                            cursorColor: kTitleColor,
+                                            textFieldType: TextFieldType.NAME,
+                                            decoration: kInputDecoration.copyWith(
+                                              enabledBorder: const OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                                                borderSide: BorderSide(color: kBorderColorTextField, width: 2),
+                                              ),
+                                              labelText: 'selling_price'.tr,
+                                              labelStyle: kTextStyle.copyWith(color: kTitleColor),
+                                              hintText: 'selling_price_of_parcel'.tr,
+                                              hintStyle: kTextStyle.copyWith(color: kGreyTextColor),
+                                            ),
+                                          ),
                                     // const SizedBox(height: 20.0),
                                     // AppTextField(
                                     //   controller: parcel.invoiceController,
