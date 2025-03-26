@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <application
-        android:label="fs_currier"
+        android:label="VENDER&amp;USER"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
