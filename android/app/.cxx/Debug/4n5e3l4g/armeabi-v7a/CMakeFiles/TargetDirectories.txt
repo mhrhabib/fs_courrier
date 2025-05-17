@@ -1,0 +1,2 @@
+/Users/mhrhabib39/Downloads/swift/kenya/fs_currier/android/app/.cxx/Debug/4n5e3l4g/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/mhrhabib39/Downloads/swift/kenya/fs_currier/android/app/.cxx/Debug/4n5e3l4g/armeabi-v7a/CMakeFiles/rebuild_cache.dir
