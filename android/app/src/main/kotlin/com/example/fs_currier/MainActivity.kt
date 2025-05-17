@@ -1,4 +1,4 @@
-package com.fsspot.fs_currier
+package com.fsspot.fscourrier
 
 import io.flutter.embedding.android.FlutterActivity
 

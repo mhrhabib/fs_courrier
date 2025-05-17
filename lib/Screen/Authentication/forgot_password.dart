@@ -81,16 +81,16 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         cursorColor: kTitleColor,
                         textFieldType: TextFieldType.EMAIL,
                         decoration: kInputDecoration.copyWith(
-                          labelText: 'email_mobile'.tr,
+                          labelText: 'Mobile'.tr,
                           labelStyle: kTextStyle.copyWith(color: kTitleColor),
-                          hintText: 'courier@gmail.com',
+                          hintText: '+254000000000',
                           hintStyle: kTextStyle.copyWith(color: kGreyTextColor),
                           suffixIcon: const Icon(Icons.mail, color: kGreyTextColor),
                         ),
                       ),
                       const SizedBox(height: 20.0),
                       ButtonGlobal(
-                        buttontext: 'send_password_reset_link'.tr,
+                        buttontext: 'Send'.tr,
                         buttonDecoration: BoxDecoration(borderRadius: BorderRadius.circular(30.0), color: kMainColor),
                         onPressed: () {
                           setState(() {

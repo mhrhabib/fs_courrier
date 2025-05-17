@@ -65,6 +65,7 @@ dependencies:
   gap: ^3.0.1
   flutter_credit_card: ^4.1.0
   flutter_stripe: ^11.4.0
+  flutter_local_notifications: ^19.1.0
 
 dev_dependencies:
   flutter_test:

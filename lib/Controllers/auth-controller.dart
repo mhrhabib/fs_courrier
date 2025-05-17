@@ -269,4 +269,36 @@ class AuthController extends GetxController {
       }
     });
   }
+
+  resendtOTPfunction({String? mobile}) async {
+    loader = true;
+    Future.delayed(const Duration(milliseconds: 10), () {
+      update();
+    });
+    Map body = {
+      'mobile': mobile,
+    };
+    String jsonBody = json.encode(body);
+    server.postRequest(endPoint: APIList.otpResend, body: jsonBody).then((response) {
+      print(response.statusCode);
+      print(">>>>>>>>>>>>>>>>");
+      print(response.body);
+      if (response != null && response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        print(jsonResponse);
+        Get.rawSnackbar(message: "${jsonResponse['message']}", backgroundColor: Colors.green, snackPosition: SnackPosition.TOP);
+        loader = false;
+        Future.delayed(const Duration(milliseconds: 10), () {
+          update();
+        });
+      } else {
+        loader = false;
+        Future.delayed(const Duration(milliseconds: 10), () {
+          update();
+        });
+        final jsonResponse = json.decode(response.body);
+        Get.rawSnackbar(message: "${jsonResponse['message']}", backgroundColor: Colors.red, snackPosition: SnackPosition.TOP);
+      }
+    });
+  }
 }

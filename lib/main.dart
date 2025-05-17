@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:fs_currier/utils/firebase_api.dart';
 import 'package:fs_currier/utils/keys.dart';
 import 'package:fs_currier/utils/storage.dart';
 import 'package:get/get.dart';
@@ -11,6 +13,7 @@ import 'Controllers/global-controller.dart';
 import 'Locale/language.dart';
 import 'Screen/SplashScreen/splash_screen.dart';
 import 'Screen/Widgets/constant.dart';
+import 'firebase_options.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -28,7 +31,22 @@ Future<void> main() async {
   //   messagingSenderId: '151878495365',
   //   authDomain: 'we-courier-81101.firebaseapp.com',
   // );
-  // await Firebase.initializeApp(name: 'courier', options: firebaseOptions);
+
+// ...
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await FirebaseMessaging.instance.requestPermission(alert: true, announcement: false, badge: true, carPlay: false, criticalAlert: false, provisional: false, sound: true);
+
+  await FirebaseApi().initNotifications();
+  await FirebaseApi().setupFlutterLocalNotifications();
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    FirebaseApi().showFlutterNotification(title: message.notification!.title!, body: message.notification!.body!);
+    print("hello");
+  });
   await GetStorage.init();
   dynamic langValue = const Locale('en', 'US');
   if (box.read('lang') != null) {

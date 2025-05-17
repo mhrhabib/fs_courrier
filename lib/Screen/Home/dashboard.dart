@@ -116,22 +116,28 @@ class _DashBoardState extends State<DashBoard> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      CachedNetworkImage(
-                        imageUrl: globalController.userImage == null ? 'assets/images/profile.png' : globalController.userImage.toString(),
-                        imageBuilder: (context, imageProvider) => CircleAvatar(
-                          radius: 25.0,
-                          backgroundImage: imageProvider,
-                          backgroundColor: Colors.transparent,
-                        ),
-                        placeholder: (context, url) => Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.grey[400]!,
-                          child: CircleAvatar(radius: 25.0),
-                        ),
-                        errorWidget: (context, url, error) => Icon(
-                          CupertinoIcons.person,
-                          size: 30,
-                        ),
+                      Obx(
+                        () => globalController.profileLoader.value
+                            ? CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : CachedNetworkImage(
+                                imageUrl: globalController.userImage == null ? 'assets/images/profile.png' : globalController.userImage.toString(),
+                                imageBuilder: (context, imageProvider) => CircleAvatar(
+                                  radius: 25.0,
+                                  backgroundImage: imageProvider,
+                                  backgroundColor: Colors.transparent,
+                                ),
+                                placeholder: (context, url) => Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[400]!,
+                                  child: CircleAvatar(radius: 25.0),
+                                ),
+                                errorWidget: (context, url, error) => Icon(
+                                  CupertinoIcons.person,
+                                  size: 30,
+                                ),
+                              ),
                       ),
                       SizedBox(
                         width: 10,
@@ -443,11 +449,11 @@ class _DashBoardState extends State<DashBoard> {
                   leading: const Icon(
                     Icons.exit_to_app,
                     color: kTitleColor,
-                    size: 18.0,
+                    size: 22.0,
                   ),
                   title: Text(
                     'log_out'.tr,
-                    style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                    style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                   trailing: Container(
                     padding: const EdgeInsets.all(2.0),

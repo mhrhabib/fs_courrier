@@ -104,16 +104,21 @@ class _OtpVerifyState extends State<OtpVerify> {
                           }
                         }),
                     const SizedBox(height: 10.0),
-                    RichText(
-                      text: TextSpan(
-                        text: 'didn_t_get'.tr,
-                        style: kTextStyle.copyWith(color: kGreyTextColor),
-                        children: [
-                          TextSpan(
-                            text: 'resend_code'.tr,
-                            style: kTextStyle.copyWith(color: Colors.pink),
-                          ),
-                        ],
+                    InkWell(
+                      onTap: () async {
+                        await authController.resendtOTPfunction(mobile: widget.mobile.toString());
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'didn_t_get'.tr,
+                          style: kTextStyle.copyWith(color: kGreyTextColor),
+                          children: [
+                            TextSpan(
+                              text: 'resend_code'.tr,
+                              style: kTextStyle.copyWith(color: Colors.pink),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
